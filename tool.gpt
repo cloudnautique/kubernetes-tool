@@ -1,0 +1,23 @@
+Name: kubernetes
+Description: Kubernetes agent that has access to kubernetes tools like kubectl and helm
+Tools: sys.exec,sys.time.now
+Context: additional_commands
+Params: kubeconfig: full path name to where the kubeconfig file is located.
+Params: exec: what you want to execute against the cluster
+
+Use the tools available to exec 
+Always pass the --kubeconfig argument with the ${KUBECONFIG} value
+---
+Name: additional_commands
+
+#!/bin/bash
+
+CMDS="kubectl helm brew aws k3d eksctl kind minikube git gh trivy"
+
+echo 'The additional CLI commands are available locally, use the `exec` tool to invoke them:'
+
+for i in $CMDS; do
+    if [ -e "$(command -v $i)" ]; then
+        echo '  ' $i
+    fi
+done
